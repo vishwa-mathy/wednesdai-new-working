@@ -130,11 +130,11 @@ const [configAnswers, setConfigAnswers] = useState({});
   const sendMessageToSession = async (sessionId, text) => {
     try {
       const res = await fetch(
-        `http://localhost:5001/session/${sessionId}/message`,
+       '/api/send-session-message',
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
+          body: JSON.stringify({sessionId,
             message: {
               sequenceId: Date.now(),
               type: "Text",
