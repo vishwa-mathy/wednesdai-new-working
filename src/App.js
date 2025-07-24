@@ -120,6 +120,7 @@ const [configAnswers, setConfigAnswers] = useState({});
       const data = await res.json();
       const id = data.sessionId ? data.sessionId : null;
       setSessionId(id);
+      console.log('sessionid' + id);
       return id;
     } catch (error) {
       console.log(error);
