@@ -552,7 +552,7 @@ const createQuotePdfUrl = async () =>{
   const sendSuggestionText = async (text) => {
     console.log("2", editorInput);
     try {
-      const res = await fetch(`http://localhost:5001/call-template`, {
+      const res = await fetch('/api/call-template', {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

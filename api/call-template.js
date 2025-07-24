@@ -1,4 +1,4 @@
-// /api/call-flow.js
+// /api/call-template.js
 export default async function handler(req, res) {
     const BASE_URL_TEMPLATE = 'https://in1750257229223.my.salesforce.com';
     console.log('called');
@@ -9,7 +9,7 @@ export default async function handler(req, res) {
   }
   try {
     console.log('inside try');
-    const response = await fetch(`${BASE_URL_TEMPLATE}/services/data/v64.0/actions/custom/flow/Send_Slack_Message_for_Hyper_Assist`, {
+    const response = await fetch(`${BASE_URL_TEMPLATE}/services/data/v64.0/einstein/prompt-templates/Return_Relevant_Materials/generations`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -21,7 +21,7 @@ export default async function handler(req, res) {
     console.log(data);
     res.status(response.status).json(data);
   } catch (error) {
-    console.error('[call-flow] Error:', error);
+    console.error('[call-template] Error:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 }
