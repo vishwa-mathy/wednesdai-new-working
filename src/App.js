@@ -208,6 +208,7 @@ async function getSalesforceAccessToken() {
   };
 
   const handleSupportClick = () => {
+    getSalesforceAccessToken();
       setSupportActive(!supportActive);
       console.log(supportActive);
       const arr = [selectedModule, selectedModuleBY, selectedModuleCon, selectedModuleCafe];
