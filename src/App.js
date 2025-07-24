@@ -112,7 +112,7 @@ const [configAnswers, setConfigAnswers] = useState({});
 
   const createSession = async (topic) => {
     try {
-      const res = await fetch("http://localhost:5001/create-session", {
+      const res = await fetch('/api/create-session', {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ topic }),
