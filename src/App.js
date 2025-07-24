@@ -12,6 +12,9 @@ import requested from "./Requesteds.png";
 
 //const topics = ["WednesdAI", "B Y Porto", "Product Configuration", "cafe"];
 function App() {
+
+  getSalesforceAccessToken();
+
   const [activeModule, setActiveModule] = useState(null);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
@@ -45,8 +48,8 @@ function App() {
   const [selectedMaterialIndex, setSelectedMaterialIndex] = useState(null);
 
   //Buttons
-const [currentConfigStep, setCurrentConfigStep] = useState(-1);
-const [configAnswers, setConfigAnswers] = useState({});
+  const [currentConfigStep, setCurrentConfigStep] = useState(-1);
+  const [configAnswers, setConfigAnswers] = useState({});
   const [selectedModule, setSelectedModule] = useState(null);
   const [selectedModuleBY, setSelectedModuleBY] = useState(null);
   const [selectedModuleCon, setSelectedModuleCon] = useState(null);
@@ -57,7 +60,53 @@ const [configAnswers, setConfigAnswers] = useState({});
   const [supportActive, setSupportActive] = useState(true);
   const [floorName, setFloorName] = useState('');
 
+  const [sfAccessToken, setSfAccessToken] = useState(null);
+  const [sfTokenTimestamp, setSfTokenTimestamp] = useState(null);
   var floor = '';
+
+  const SALESFORCE_OAUTH_CONFIG = {
+  client_id: '3MVG9Rr0EZ2YOVMaUiiM2_5O9LznORg6MVLFOPlVqhIS.sFaZDS4Ql0QkL_YIh4elr.uAnlHN4Deu31WPXv_M',
+  client_secret: '3B7BA60A418DE591828EB77F31982A467842C37116D36CAE1E2BA93106804736',
+  username: 'vishwa01@infosys.com.hack.demo',
+  password: 'Welcomevishwa123Ad0r6VV3UyF7YscEsTAOWEha',
+  token_url: 'https://login.salesforce.com/services/oauth2/token',
+};
+
+// In-memory token cache
+let salesforceAccessToken = null;
+let salesforceTokenExpiry = 0; // epoch ms
+
+async function getSalesforceAccessToken() {
+  const now = Date.now();
+  if (salesforceAccessToken && now < salesforceTokenExpiry - 60000) {
+    // Return cached token if not expiring in next 60s
+    return salesforceAccessToken;
+  }
+  // Request new access token using refresh token
+  const params = new URLSearchParams();
+  params.append('grant_type', 'password');
+  params.append('client_id', SALESFORCE_OAUTH_CONFIG.client_id);
+  params.append('client_secret', SALESFORCE_OAUTH_CONFIG.client_secret);
+  params.append('refresh_token', SALESFORCE_OAUTH_CONFIG.refresh_token);
+  params.append('username', SALESFORCE_OAUTH_CONFIG.username);
+  params.append('password', SALESFORCE_OAUTH_CONFIG.password);
+
+  const response = await fetch(SALESFORCE_OAUTH_CONFIG.token_url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: params.toString(),
+  });
+  if (!response.ok) {
+    throw new Error('Failed to refresh Salesforce access token');
+  }
+  const data = await response.json();
+  salesforceAccessToken = data.access_token;
+  console.log('access token' + salesforceAccessToken);
+  // Salesforce tokens are usually valid for 2 hours
+  salesforceTokenExpiry = now + 20 * 60 * 1000;
+  console.log('access token' + salesforceTokenExpiry);
+  return salesforceAccessToken;
+}
 
   useEffect(() => {
     scrollToBottom();
