@@ -90,7 +90,7 @@ async function getSalesforceAccessToken() {
   params.append('username', SALESFORCE_OAUTH_CONFIG.username);
   params.append('password', SALESFORCE_OAUTH_CONFIG.password);
 
-  const response = await fetch(SALESFORCE_OAUTH_CONFIG.token_url, {
+  const response = await fetch('/api/get-access-token', {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: params.toString(),
