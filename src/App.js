@@ -87,7 +87,6 @@ async function getSalesforceAccessToken() {
   params.append('grant_type', 'password');
   params.append('client_id', SALESFORCE_OAUTH_CONFIG.client_id);
   params.append('client_secret', SALESFORCE_OAUTH_CONFIG.client_secret);
-  params.append('refresh_token', SALESFORCE_OAUTH_CONFIG.refresh_token);
   params.append('username', SALESFORCE_OAUTH_CONFIG.username);
   params.append('password', SALESFORCE_OAUTH_CONFIG.password);
 
